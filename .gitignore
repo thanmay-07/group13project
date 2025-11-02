@@ -1,0 +1,21 @@
+# Maven / build
+/target/
+/.mvn/
+
+# IntelliJ
+/.idea/
+*.iml
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local manual location file
+.cbs_manual_location
+
+# Database credentials (do NOT commit)
+src/main/resources/db.properties
