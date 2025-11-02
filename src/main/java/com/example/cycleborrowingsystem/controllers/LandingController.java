@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import com.example.cycleborrowingsystem.Session;
 import com.example.cycleborrowingsystem.dao.UserLocationTokenDao;
 import com.example.cycleborrowingsystem.models.User;
+import com.example.cycleborrowingsystem.net.LandingServer.BiConsumerOnLocation;
 
 public class LandingController implements Initializable {
     @FXML private Button adminPanelBtn;
@@ -81,7 +82,11 @@ public class LandingController implements Initializable {
             dialog.getDialogPane().setContent(grid);
 
             // Validate input when OK is pressed
-            java.util.Optional<javafx.scene.control.ButtonType> result = dialog.showAndWait();
+            dialog.setResultConverter(dialogButton -> null);
+            dialog.showAndWait();
+            java.util.Optional<javafx.scene.control.ButtonType> result = dialog.getDialogPane().getButtonTypes().stream()
+                .filter(bt -> dialog.getDialogPane().lookupButton(bt).isPressed())
+                .findFirst();
             if (result.isPresent() && result.get() == okType) {
                 String model = modelField.getText() == null ? "" : modelField.getText().trim();
                 String coords = coordsField.getText() == null ? "" : coordsField.getText().trim();
@@ -119,23 +124,28 @@ public class LandingController implements Initializable {
     private void startServer() {
         try {
             landingServer = LandingServer.getInstance();
-            if (landingServer == null) {
-                landingServer = new LandingServer(serverPort, (lat, lon) -> {
-                    String coords = String.format("%.6f, %.6f", lat, lon);
-                    Platform.runLater(() -> {
-                        locationStatusLabel.setText("Location received from phone: " + coords);
-                        manualLocationField.setText(coords);
-                    });
+            BiConsumerOnLocation locationHandler = (lat, lon) -> {
+                String coords = String.format("%.6f, %.6f", lat, lon);
+                Platform.runLater(() -> {
+                    locationStatusLabel.setText("Location received from phone: " + coords);
+                    manualLocationField.setText(coords);
+                    // Always try to save location for logged-in user
+                    User cur = Session.getCurrentUser();
+                    if (cur != null) {
+                        try {
+                            UserLocationTokenDao tokDao = new UserLocationTokenDao();
+                            tokDao.createTableIfNotExists();
+                            tokDao.setLocation(cur.getId(), lat, lon);
+                        } catch (SQLException ignore) {}
+                    }
                 });
+            };
+            
+            if (landingServer == null) {
+                landingServer = new LandingServer(serverPort, locationHandler);
                 landingServer.start();
             } else {
-                landingServer.setOnLocation((lat, lon) -> {
-                    String coords = String.format("%.6f, %.6f", lat, lon);
-                    Platform.runLater(() -> {
-                        locationStatusLabel.setText("Location received from phone: " + coords);
-                        manualLocationField.setText(coords);
-                    });
-                });
+                landingServer.setOnLocation(locationHandler);
             }
 
             String host = landingServer.getLocalAddress();

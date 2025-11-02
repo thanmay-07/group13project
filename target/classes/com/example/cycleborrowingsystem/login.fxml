@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.cycleborrowingsystem.controllers.UserLoginController" prefWidth="420" prefHeight="720">
-    <VBox spacing="12" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
-        <Label text="User Login" style="-fx-font-size:18px; -fx-font-weight:600;"/>
-        <TextField fx:id="emailField" promptText="Email"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
-        <Button text="Login" onAction="#onLogin"/>
-        <Button text="Back" onAction="#onBack"/>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="com.example.cycleborrowingsystem.controllers.UserLoginController" 
+            prefWidth="520" prefHeight="720" 
+            styleClass="root">
+            
+    <VBox spacing="24" AnchorPane.topAnchor="48" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
+        <!-- Header -->
+        <Label text="Campus Cycle Share" styleClass="title" alignment="CENTER"/>
+        
+        <!-- Main Card -->
+        <VBox styleClass="hero" spacing="24">
+            <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
+            
+            <VBox spacing="8">
+                <Label text="Welcome Back" styleClass="card-title"/>
+                <Label text="Log in to access your account" 
+                       style="-fx-text-fill: #475569;"/>
+            </VBox>
+            
+            <VBox spacing="16">
+                <VBox spacing="8">
+                    <Label text="Email" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                    <TextField fx:id="emailField" promptText="Enter your email"/>
+                </VBox>
+                
+                <VBox spacing="8">
+                    <Label text="Password" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                    <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+                </VBox>
+            </VBox>
+            
+            <VBox spacing="12">
+                <Button text="Log In" onAction="#onLogin" styleClass="primary"/>
+                <Button text="Go Back" onAction="#onBack" styleClass="secondary"/>
+            </VBox>
+            
+            <HBox spacing="8" alignment="CENTER">
+                <Label text="Don't have an account?" style="-fx-text-fill: #475569;"/>
+                <Hyperlink text="Sign Up" onAction="#onSignup"/>
+            </HBox>
+        </VBox>
     </VBox>
 </AnchorPane>

@@ -16,19 +16,46 @@ import java.util.concurrent.*;
 
 public class LandingServer {
     private static LandingServer instance;
-    private final HttpServer server;
+    private HttpServer server;  // Not final to support resilient init
     private final String pairToken;
+    private final int port;
     private final ConcurrentMap<String, LastLocation> lastLocations = new ConcurrentHashMap<>();
     private final ScheduledExecutorService janitor = Executors.newSingleThreadScheduledExecutor();
     private volatile BiConsumerOnLocation onLocation;
+    private volatile boolean isStarted = false;
 
     public static LandingServer getInstance() {
         return instance;
     }
 
     public LandingServer(int port, BiConsumerOnLocation initialListener) throws IOException {
+        this.port = port;
         this.onLocation = initialListener;
-        this.server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);
+        try {
+            this.server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);
+        } catch (BindException be) {
+            // Try to get token from existing server
+            try {
+                URL url = new URL("http://localhost:" + port + "/pair");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(2000);
+                conn.setReadTimeout(2000);
+                String html = new String(conn.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+                String tokenStart = "<p>Token: <b>";
+                int idx = html.indexOf(tokenStart);
+                if (idx >= 0) {
+                    idx += tokenStart.length();
+                    int end = html.indexOf("</b>", idx);
+                    if (end > idx) {
+                        this.pairToken = html.substring(idx, end);
+                        this.server = null;
+                        instance = this;
+                        return;
+                    }
+                }
+            } catch (Exception ignored) {}
+            throw be;
+        }
         this.server.setExecutor(Executors.newCachedThreadPool());
         this.pairToken = UUID.randomUUID().toString().substring(0, 8);
         server.createContext("/pair", new PairHandler());
@@ -40,18 +67,52 @@ public class LandingServer {
     }
 
     public void start() {
-        server.start();
+        if (server != null && !isStarted) {
+            server.start();
+            isStarted = true;
+        }
     }
 
     public void stop() {
-        try {
-            server.stop(0);
-        } catch (Exception ignored) {}
+        if (server != null && isStarted) {
+            try {
+                server.stop(0);
+                isStarted = false;
+            } catch (Exception ignored) {}
+        }
         janitor.shutdownNow();
     }
 
     public String getPairToken() {
         return pairToken;
+    }
+    
+    public boolean isRunning() {
+        return isStarted;
+    }
+
+    public LastLocation getLatestLocation() {
+        if (isStarted) {
+            return getLastLocation(pairToken);
+        }
+        // Try to get from existing server
+        try {
+            String url = String.format("http://localhost:%d/latest?token=%s", port, pairToken);
+            HttpURLConnection conn = (HttpURLConnection) URI.create(url).toURL().openConnection();
+            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(2000);
+            if (conn.getResponseCode() == 200) {
+                String json = new String(conn.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+                Map<String,String> map = parseSimpleJson(json);
+                if ("ok".equals(map.get("status"))) {
+                    double lat = Double.parseDouble(map.get("lat"));
+                    double lon = Double.parseDouble(map.get("lon"));
+                    long ts = Long.parseLong(map.get("ts"));
+                    return new LastLocation(lat, lon, ts);
+                }
+            }
+        } catch (Exception ignored) {}
+        return null;
     }
 
     public String getLocalAddress() {

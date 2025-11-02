@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.cycleborrowingsystem.controllers.UserSignupController" prefWidth="420" prefHeight="720">
-    <VBox spacing="12" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
-        <Label text="Sign Up" style="-fx-font-size:18px; -fx-font-weight:600;"/>
-        <TextField fx:id="nameField" promptText="Name"/>
-        <TextField fx:id="emailField" promptText="Campus Email"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
-        <Button text="Sign Up" onAction="#onSignup"/>
-        <Button text="Back" onAction="#onBack"/>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" 
+            fx:controller="com.example.cycleborrowingsystem.controllers.UserSignupController" 
+            prefWidth="520" prefHeight="720" 
+            styleClass="root">
+            
+    <VBox spacing="24" AnchorPane.topAnchor="48" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
+        <!-- Header -->
+        <Label text="Campus Cycle Share" styleClass="title" alignment="CENTER"/>
+        
+        <!-- Main Card -->
+        <VBox styleClass="hero" spacing="24">
+            <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
+            
+            <VBox spacing="8">
+                <Label text="Create Account" styleClass="card-title"/>
+                <Label text="Sign up to start sharing and finding cycles" 
+                       style="-fx-text-fill: #475569;"/>
+            </VBox>
+            
+            <VBox spacing="16">
+                <VBox spacing="8">
+                    <Label text="Name" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                    <TextField fx:id="nameField" promptText="Enter your name (optional)"/>
+                </VBox>
+                
+                <VBox spacing="8">
+                    <Label text="Campus Email" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                    <TextField fx:id="emailField" promptText="Enter your campus email"/>
+                </VBox>
+                
+                <VBox spacing="8">
+                    <Label text="Password" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                    <PasswordField fx:id="passwordField" promptText="Choose a secure password"/>
+                </VBox>
+            </VBox>
+            
+            <VBox spacing="12">
+                <Button text="Create Account" onAction="#onSignup" styleClass="primary"/>
+                <Button text="Go Back" onAction="#onBack" styleClass="secondary"/>
+            </VBox>
+            
+            <HBox spacing="8" alignment="CENTER">
+                <Label text="Already have an account?" style="-fx-text-fill: #475569;"/>
+                <Hyperlink text="Log In" onAction="#onBack"/>
+            </HBox>
+        </VBox>
     </VBox>
 </AnchorPane>
