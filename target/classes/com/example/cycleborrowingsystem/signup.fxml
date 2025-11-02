@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.cycleborrowingsystem.controllers.UserSignupController" prefWidth="420" prefHeight="720">
+    <VBox spacing="12" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
+        <Label text="Sign Up" style="-fx-font-size:18px; -fx-font-weight:600;"/>
+        <TextField fx:id="nameField" promptText="Name"/>
+        <TextField fx:id="emailField" promptText="Campus Email"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <Button text="Sign Up" onAction="#onSignup"/>
+        <Button text="Back" onAction="#onBack"/>
+    </VBox>
+</AnchorPane>

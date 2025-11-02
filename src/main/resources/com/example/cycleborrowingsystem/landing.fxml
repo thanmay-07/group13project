@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cycleborrowingsystem.controllers.LandingController"
+            prefWidth="480" prefHeight="780">
+    <VBox spacing="18" AnchorPane.topAnchor="18" AnchorPane.leftAnchor="18" AnchorPane.rightAnchor="18">
+        <HBox spacing="12" alignment="CENTER">
+            <Label text="CBS" style="-fx-font-size:26px; -fx-font-weight:bold; -fx-text-fill:#0b1220;"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="adminPanelBtn" text="Admin" styleClass="ghost"/>
+            <Button fx:id="userPanelBtn" text="User" styleClass="primary"/>
+        </HBox>
+
+        <VBox styleClass="hero" spacing="12">
+            <Label text="Campus cycle sharing" style="-fx-font-size:18px; -fx-font-weight:600;"/>
+            <Label text="Use your phone to share real-time location with the desktop app. Pair once and send location." wrapText="true"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <TextField fx:id="pairingField" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="copyBtn" text="Copy"/>
+                <Button fx:id="openBtn" text="Open"/>
+                <Button fx:id="addCycleBtn" text="Add Cycle" />
+            </HBox>
+            <Label fx:id="locationStatusLabel" text="Server not started yet" wrapText="true"/>
+            <TextField fx:id="manualLocationField" promptText="Detected location (lat, lon)"/>
+            <HBox spacing="8" alignment="CENTER">
+                <Button fx:id="loginButton" text="Log In" styleClass="secondary"/>
+                <Button fx:id="signupButton" text="Sign Up" styleClass="secondary"/>
+            </HBox>
+        </VBox>
+
+        <VBox spacing="10" styleClass="info">
+            <Label text="How it works" style="-fx-font-size:14px; -fx-font-weight:600;"/>
+            <Label text="1. Open the pairing URL on your phone (same Wi-Fi)\n2. Allow geolocation and send; 3. Desktop updates location" wrapText="true"/>
+        </VBox>
+
+        <Pane/>
+        <Label text="Made for campus use — Version: 0.2" style="-fx-text-fill:#6b7280; -fx-font-size:11px;" />
+    </VBox>
+</AnchorPane>

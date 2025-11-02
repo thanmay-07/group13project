@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>CBS - Send Location</title>
+    <style>
+        body{font-family:Arial;padding:16px}
+        button{padding:12px;border-radius:8px;background:#2563eb;color:#fff;border:none;margin-right:8px}
+        .secondary{background:#fff;color:#111;border:1px solid #ddd}
+        input{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #ddd}
+        pre{background:#f6f7fb;padding:12px;border-radius:6px;white-space:pre-wrap}
+    </style>
+</head>
+<body>
+<h3>CBS - Send Location</h3>
+<label>Desktop IP (copy from app above)</label>
+<input id="host" placeholder="192.168.x.x" />
+<label>Port</label>
+<input id="port" placeholder="8765" value="8765"/>
+<label>Token (from pairing URL)</label>
+<input id="token" placeholder="pair token" />
+<div style="margin-top:12px">
+    <button onclick="startSharing()">Start sharing</button>
+    <button class="secondary" id="stopBtn" onclick="stopSharing()" style="display:none">Stop sharing</button>
+    <button class="secondary" onclick="detect()">Detect & Send</button>
+</div>
+<pre id="out"></pre>
+<script>
+    let watchId = null;
+    function baseUrl(){
+        const host = document.getElementById('host').value.trim();
+        const port = document.getElementById('port').value.trim() || '8765';
+        return `http://${host}:${port}`;
+    }
+    function log(msg){
+        const o = document.getElementById('out');
+        o.innerText = new Date().toLocaleTimeString() + " — " + msg + "\n" + o.innerText;
+    }
+    function detect(){
+      const host = document.getElementById('host').value.trim();
+      const port = document.getElementById('port').value.trim() || '8765';
+      const token = document.getElementById('token').value.trim();
+      if(!host || !token){ alert('enter host and token'); return; }
+      if(!navigator.geolocation){ document.getElementById('out').innerText='Geolocation not supported'; return; }
+      navigator.geolocation.getCurrentPosition(pos => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        const url = `${baseUrl()}/location`;
+        fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, lat, lon })
+        }).then(r => r.text()).then(t => {
+          log('One-shot sent: ' + t);
+        }).catch(e => { log('Error: ' + e); });
+      }, err => { log('Error: ' + err.message); }, {timeout:10000});
+    }
+    function startSharing(){
+      const host = document.getElementById('host').value.trim();
+      const token = document.getElementById('token').value.trim();
+      if(!host || !token){ alert('enter host and token'); return; }
+      if(!navigator.geolocation){ log('Geolocation not supported'); return; }
+      document.getElementById('stopBtn').style.display='inline-block';
+      try{
+        watchId = navigator.geolocation.watchPosition(pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const url = `${baseUrl()}/location`;
+          fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, lat, lon })
+          }).then(r => r.text()).then(t => {
+            log('Update sent: ' + lat.toFixed(6) + ',' + lon.toFixed(6));
+          }).catch(e => { log('Send error: ' + e); });
+        }, err => {
+          log('watchPosition error: ' + err.message);
+        }, { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 });
+        log('Sharing started');
+      }catch(e){
+        log('Start failed: ' + e);
+      }
+    }
+    function stopSharing(){
+      const host = document.getElementById('host').value.trim();
+      const token = document.getElementById('token').value.trim();
+      if(watchId !== null){
+        try{ navigator.geolocation.clearWatch(watchId); }catch(e){}
+        watchId = null;
+      }
+      const url = `${baseUrl()}/stop?token=${encodeURIComponent(token)}`;
+      fetch(url, { method: 'GET' })
+        .then(r => r.text())
+        .then(t => { log('Stopped sharing: ' + t); document.getElementById('stopBtn').style.display='none'; })
+        .catch(e => { log('Stop request failed: ' + e); });
+    }
+</script>
+</body>
+</html>

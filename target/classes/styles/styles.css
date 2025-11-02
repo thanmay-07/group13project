@@ -1,0 +1,41 @@
+.root {
+    -fx-font-family: 'Segoe UI', Roboto, Arial;
+    -fx-background-color: linear-gradient(to bottom right, #f7fafc 0%, #eef2ff 100%);
+}
+.hero {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 18, 0, 0, 8);
+}
+.info {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-padding: 12;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.04), 10, 0, 0, 6);
+}
+.button {
+    -fx-background-radius: 8;
+    -fx-padding: 8 14 8 14;
+}
+.button.primary {
+    -fx-background-color: linear-gradient(#3b82f6, #2563eb);
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+.button.secondary {
+    -fx-background-color: white;
+    -fx-border-color: #e5e7eb;
+    -fx-text-fill: #0b1220;
+    -fx-font-weight: 600;
+}
+.button.ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0b1220;
+    -fx-border-color: transparent;
+}
+.text-field {
+    -fx-background-radius: 8;
+    -fx-border-color: #e6edf7;
+    -fx-padding: 8 10 8 10;
+}
