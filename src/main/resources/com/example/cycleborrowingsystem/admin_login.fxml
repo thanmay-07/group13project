@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.cycleborrowingsystem.controllers.AdminController" prefWidth="420" prefHeight="720">
+    <VBox spacing="12" AnchorPane.topAnchor="30" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
+        <Label text="Admin Login" style="-fx-font-size:20px; -fx-font-weight:600;"/>
+        <TextField fx:id="emailField" promptText="Admin Email"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <Button text="Login" onAction="#onLogin"/>
+        <Button text="Back" onAction="#onBack"/>
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,139 @@
+.root {
+    -fx-font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    -fx-background-color: #111827;
+    -fx-text-fill: #f3f4f6;
+}
+
+.hero {
+    -fx-background-color: #1f2937;
+    -fx-background-radius: 12;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 1);
+    -fx-border-color: #374151;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.hero .label {
+    -fx-text-fill: #e5e7eb;
+}
+
+.info {
+    -fx-background-color: #1f2937;
+    -fx-padding: 16;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 12, 0, 0, 8);
+    -fx-border-color: #374151;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.info .label {
+    -fx-text-fill: #e5e7eb;
+}
+
+.button {
+    -fx-background-radius: 8;
+    -fx-padding: 10 18 10 18;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.button:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.button.primary {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button.primary:hover {
+    -fx-background-color: #2563eb;
+}
+
+.button.secondary {
+    -fx-background-color: #374151;
+    -fx-border-color: #4b5563;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-text-fill: #e5e7eb;
+    -fx-font-weight: bold;
+}
+
+.button.secondary:hover {
+    -fx-background-color: #4b5563;
+}
+
+.button.ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: #f8fafc;
+    -fx-border-color: transparent;
+    -fx-font-weight: 600;
+}
+
+.button.ghost:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.text-field {
+    -fx-background-color: #374151;
+    -fx-background-radius: 8;
+    -fx-border-color: #4b5563;
+    -fx-border-radius: 8;
+    -fx-padding: 12 16;
+    -fx-font-size: 14px;
+    -fx-text-fill: #e5e7eb;
+}
+
+.text-field:focused {
+    -fx-border-color: #3b82f6;
+    -fx-border-width: 2;
+}
+
+.text-field.pairing-link {
+    -fx-font-family: 'Consolas', 'Courier New', monospace;
+    -fx-font-size: 13px;
+    -fx-background-color: #1f2937;
+}
+
+/* Status labels */
+.status-label {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 14px;
+}
+
+/* Title styles */
+.title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f3f4f6;
+}
+
+.subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e5e7eb;
+}
+
+/* Card title */
+.card-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #f3f4f6;
+}
+
+/* Hyperlinks */
+.hyperlink {
+    -fx-text-fill: #60a5fa;
+    -fx-border-color: transparent;
+    -fx-padding: 4 0;
+    -fx-cursor: hand;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #3b82f6;
+    -fx-underline: true;
+}

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.cycleborrowingsystem.controllers.LandingController"
+            prefWidth="520" prefHeight="780" styleClass="root">
+    <VBox spacing="24" AnchorPane.topAnchor="24" AnchorPane.leftAnchor="24" AnchorPane.rightAnchor="24">
+        <!-- Header -->
+        <HBox spacing="16" alignment="CENTER">
+            <Label text="Campus Cycle Share" styleClass="title"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="adminPanelBtn" text="Admin Panel" styleClass="ghost"/>
+            <Button fx:id="userPanelBtn" text="User" styleClass="primary"/>
+        </HBox>
+
+        <!-- Main Card -->
+        <VBox styleClass="hero" spacing="20">
+            <Label text="Share Location &amp; Find Cycles" styleClass="card-title"/>
+            <Label text="Use your phone to share real-time location with the desktop app. Pair once and start finding nearby cycles instantly." 
+                   wrapText="true" style="-fx-text-fill: #475569;"/>
+            
+            <!-- Pairing Section -->
+            <VBox spacing="12">
+                <Label text="Pairing URL" style="-fx-font-weight: 600; -fx-text-fill: #1e293b;"/>
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <TextField fx:id="pairingField" styleClass="pairing-link" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="copyBtn" text="Copy URL" styleClass="secondary"/>
+                    <Button fx:id="openBtn" text="Open in Browser" styleClass="primary"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Location Status -->
+            <VBox spacing="8">
+                <Label fx:id="locationStatusLabel" text="Server not started yet" 
+                       wrapText="true" styleClass="status-label"/>
+                <TextField fx:id="manualLocationField" promptText="Enter location manually (lat, lon)"
+                          style="-fx-prompt-text-fill: #94a3b8;"/>
+            </VBox>
+
+            <!-- Actions -->
+            <HBox spacing="12">
+                <Pane HBox.hgrow="ALWAYS"/>
+                <HBox spacing="12" alignment="CENTER">
+                    <Button fx:id="loginButton" text="Log In" styleClass="primary"/>
+                    <Button fx:id="signupButton" text="Sign Up" styleClass="secondary"/>
+                </HBox>
+            </HBox>
+        </VBox>
+
+        <!-- Help Card -->
+        <VBox styleClass="info" spacing="16">
+            <Label text="Quick Guide" styleClass="card-title" style="-fx-font-size: 18px;"/>
+            <VBox spacing="8">
+                <Label text="1. Open the pairing URL on your mobile device (same network)" 
+                       style="-fx-text-fill: #475569;"/>
+                <Label text="2. Allow location access when prompted" 
+                       style="-fx-text-fill: #475569;"/>
+                <Label text="3. Your location will update automatically" 
+                       style="-fx-text-fill: #475569;"/>
+            </VBox>
+        </VBox>
+
+        <!-- Footer -->
+        <HBox alignment="CENTER">
+            <Label text="Campus Cycle Share — v0.2" 
+                   style="-fx-text-fill: #94a3b8; -fx-font-size: 13px;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

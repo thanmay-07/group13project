@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.cycleborrowingsystem.controllers.AdminDashboardController" prefWidth="960" prefHeight="640">
+    <top>
+        <ToolBar>
+            <Label text="Admin Dashboard" style="-fx-font-size:18px; -fx-font-weight:700;" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button text="Back" onAction="#onBack" />
+        </ToolBar>
+    </top>
+    <center>
+        <TabPane>
+            <tabs>
+                <Tab text="Users" closable="false">
+                    <BorderPane>
+                        <center>
+                            <TableView fx:id="usersTable">
+                                <columns>
+                                    <TableColumn fx:id="idColumn" text="ID" prefWidth="100" />
+                                    <TableColumn fx:id="nameColumn" text="Name" prefWidth="200" />
+                                    <TableColumn fx:id="emailColumn" text="Email" prefWidth="260" />
+                                </columns>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <HBox spacing="8" alignment="CENTER_RIGHT" padding="10">
+                                <Button text="Refresh" onAction="#onRefreshUsers" />
+                            </HBox>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+                <Tab text="Cycles" closable="false">
+                    <BorderPane>
+                        <center>
+                            <TableView fx:id="cyclesTable">
+                                <columns>
+                                    <TableColumn fx:id="cycleIdColumn" text="ID" prefWidth="100" />
+                                    <TableColumn fx:id="cycleModelColumn" text="Model" prefWidth="240" />
+                                    <TableColumn fx:id="cycleLatColumn" text="Lat" prefWidth="160" />
+                                    <TableColumn fx:id="cycleLonColumn" text="Lon" prefWidth="160" />
+                                </columns>
+                            </TableView>
+                        </center>
+                        <bottom>
+                            <HBox spacing="8" alignment="CENTER_RIGHT" padding="10">
+                                <Button text="Refresh" onAction="#onRefreshCycles" />
+                            </HBox>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
+
+

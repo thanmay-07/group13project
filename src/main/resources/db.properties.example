@@ -1,0 +1,5 @@
+# Copy this to db.properties and fill values (DO NOT commit db.properties)
+# Example:
+# jdbcUrl=jdbc:mysql://localhost:3306/cbs
+# username=cbs_user
+# password=change_me
